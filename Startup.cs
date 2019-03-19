@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using StARKS.Database_Context;
 using StARKS.Repository;
@@ -22,6 +23,12 @@ namespace StARKS
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<DBContext>();
+                if (!context.Database.EnsureCreated())
+                    context.Database.Migrate();
+            }
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
