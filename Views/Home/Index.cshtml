@@ -1,0 +1,208 @@
+﻿@model StARKS.Models.StarksModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>StARKS is application which collects and presents student’s marks.</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="~/css/custom.css" />
+</head>
+<body>
+    <div class="bs-example" id="tabs1">
+        <ul class="nav nav-tabs">
+            <li> <a href="Students"  data-toggle="tab" onclick="openInformation('Students')">Students</a></li>
+            <li><a href="Courses"  data-toggle="tab" onclick="openInformation('Courses')">Courses</a></li>
+            <li><a href="Marks"  data-toggle="tab" onclick="openInformation('Marks')">Marks</a></li>
+        </ul>
+    </div>
+    <div class="bs-example">
+        @if (TempData[MessageInfo.WarningMessage] != null)
+        {
+            <div class="alert alert-warning fade in">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Warning!</strong> @TempData[MessageInfo.WarningMessage]
+            </div>
+        }
+        @if (TempData[MessageInfo.SuccessMessage] != null)
+        {
+            <div class="alert alert-success fade in">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Success!</strong> @TempData[MessageInfo.SuccessMessage]
+            </div>
+        }
+    </div>
+    <div id="Students" class="container starks" style="display:none">
+        <div class="row">
+            <div class="form-group pull-left paddingLeftSearch">
+                <input type="text" class="search searchStudents form-control" placeholder="Search...">
+            </div>
+        </div>
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Manage <b>Students</b></h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="#id01" onclick="AddEditStudentRecord(0)" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Student</span></a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover resultsStudents">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Date of Birth</th>
+                        <th>Gender</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        @foreach (var student in Model.Students)
+                        {
+                        <tr>
+                            <td>@student.FirstName</td>
+                            <td>@student.LastName</td>
+                            <td>@student.Address</td>
+                            <td>@student.City</td>
+                            <td>@student.State</td>
+                            <td>@student.DateOfBirth.ToString("dd MM yyy")</td>
+                            <td>@student.Gender</td>
+                            <td>
+                                <a href="#id01" class="edit" onclick="AddEditStudentRecord('@student.StudentId')" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                <a href="#deleteStudentModal" onclick="DeleteStudentRecord('@student.StudentId')" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    <div id="Courses" class="container starks" style="display:none">
+        <div class="row">
+            <div class="form-group pull-left paddingLeftSearch">
+                <input type="text" class="search searchCourses form-control" placeholder="Search...">
+            </div>
+        </div>
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Manage <b>Courses</b></h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="#courseModal" onclick="AddEditCourseRecord(0)" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Course</span></a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover resultsCourse">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        @foreach (var course in Model.Courses)
+                        {
+                        <tr>
+                            <td>@course.Code</td>
+                            <td>@course.Name</td>
+                            <td>@course.Description</td>
+                            <td>
+                                <a href="#courseModal" class="edit" onclick="AddEditCourseRecord('@course.CourseId')" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                <a href="#deleteCourseModal" onclick="DeleteCourseRecord('@course.CourseId')" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+            <div id="Marks" class="container starks" style="display:none">
+                <div class="row">
+                    <div class="form-group pull-left paddingLeftSearch">
+                        <input type="text" class="search searchEvery form-control" placeholder="Search...">
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h2>Manage <b> Marks</b></h2>
+                            </div>
+                            <a href="#id01" onclick="AddEditStudentRecord(0)" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Student</span></a>
+                            <a href="#courseModal" onclick="AddEditCourseRecord(0)" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Course</span></a>
+                        </div>
+                    </div>
+
+                    <table class="table table-striped table-hover results">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                @foreach (var course in Model.Courses)
+                                {
+                                    <th title="Edit Course">
+                                        <a href="#courseModal" onclick="AddEditCourseRecord('@course.CourseId')" data-toggle="modal">@course.Name</a>
+                                    </th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody id="tbodymark">
+                            @foreach (var student in Model.StudentMarks)
+                            {
+                                <tr>
+                                    <td title="Edit Student">
+                                        <a href="#id01" onclick="AddEditStudentRecord('@student.StudentId')" data-toggle="modal"> @student.FirstName @student.LastName</a>
+                                    </td>
+                                    @foreach (var course in Model.Courses)
+                                    {
+                                        if (student.Marks.Any(x => x.CourseId == course.CourseId))
+                                        {
+                                            <td>
+                                                <input type="number" min="6" max="10" title="Edit Mark" oninput="updateMark(this.value, '@student.Marks.Where(x => x.CourseId == course.CourseId).FirstOrDefault().StudentId', @student.Marks.Where(x => x.CourseId == course.CourseId).FirstOrDefault().CourseId)" value="@student.Marks.Where(x => x.CourseId == course.CourseId).FirstOrDefault().Value" />
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td> <input type="number" min="6" max="10" id="mark" oninput="updateMark(this.value, '@student.StudentId', '@course.CourseId')" title="Edit Mark" /></td>
+                                        }
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </body>
+    </html>
+    <script src="~/js/course.js"></script>
+    <script src="~/js/student.js"></script>
+    <script src="~/js/tabs.js"></script>
+    <script src="~/js/mark.js"></script>
+    <script src="~/js/search.js"></script>
+    <partial name="_DeleteCourseConfirmationDialog" />
+    <partial name="_CourseModalDialog" model="new StARKS.Entities.Course()" />
+    <partial name="_StudentModalDialog" model="new StARKS.Entities.Student()" />
+    <partial name="_DeleteConfirmation" />
+
+
+
+
+
