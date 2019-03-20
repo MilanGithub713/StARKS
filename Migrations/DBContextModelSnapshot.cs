@@ -46,7 +46,7 @@ namespace StARKS.Migrations
 
                     b.Property<int>("StudentId");
 
-                    b.Property<int>("Value");
+                    b.Property<int?>("Value");
 
                     b.HasKey("MarkId");
 
@@ -67,7 +67,7 @@ namespace StARKS.Migrations
 
                     b.Property<string>("City");
 
-                    b.Property<DateTime>("DateOfBirth");
+                    b.Property<DateTime?>("DateOfBirth");
 
                     b.Property<string>("FirstName");
 
@@ -90,7 +90,7 @@ namespace StARKS.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("StARKS.Entities.Student", "Student")
-                        .WithMany()
+                        .WithMany("Marks")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

@@ -34,7 +34,7 @@ namespace StARKS.Migrations
                     Address = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
                     State = table.Column<string>(nullable: true),
-                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    DateOfBirth = table.Column<DateTime>(nullable: true),
                     Gender = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -50,7 +50,7 @@ namespace StARKS.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CourseId = table.Column<int>(nullable: false),
                     StudentId = table.Column<int>(nullable: false),
-                    Value = table.Column<int>(nullable: false)
+                    Value = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
