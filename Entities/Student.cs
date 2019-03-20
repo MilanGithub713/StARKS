@@ -62,7 +62,7 @@ namespace StARKS.Entities
         /// <value>
         /// The Date Of Birthday.
         /// </value>
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
         /// Gets or sets the Gender.

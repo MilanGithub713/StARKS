@@ -20,31 +20,31 @@ namespace StARKS.Controllers
         /// <summary>
         /// Creating, Updating, Deleting information about student mark for specific course.
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="markValue"></param>
         /// <param name="studentId"></param>
         /// <param name="courseId"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Save(int value, int studentId, int courseId)
+        public IActionResult Save(int? markValue, int studentId, int courseId)
         {
             try
             {
-                if (value >= 6 && value <= 10 || value == 0)
+                if (markValue >= 6 && markValue <= 10 || markValue == null)
                 {
                     var mark = _markRepository.GetMarks().Where(x => x.StudentId == studentId && x.CourseId == courseId).FirstOrDefault();
                     if (mark == null)
                     {
-                        _markRepository.Save(MarkDetails(value, studentId, courseId));
+                        _markRepository.Save(MarkDetails(markValue, studentId, courseId));
                     }
                     else
                     {
-                        if (value == 0)
+                        if (markValue == null)
                         {
                             _markRepository.Delete(mark);
                         }
                         else
                         {
-                            mark.Value = value;
+                            mark.Value = markValue;
                             _markRepository.Update(mark);
                         }
                     }
@@ -61,11 +61,11 @@ namespace StARKS.Controllers
 
         #region private
 
-        private Mark MarkDetails(int value, int studentId, int courseId)
+        private Mark MarkDetails(int? markValue, int studentId, int courseId)
         {
             var mark = new Mark
             {
-                Value = value,
+                Value = markValue,
                 StudentId = studentId,
                 CourseId = courseId
             };

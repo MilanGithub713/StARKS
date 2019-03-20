@@ -78,7 +78,7 @@
                             <td>@student.Address</td>
                             <td>@student.City</td>
                             <td>@student.State</td>
-                            <td>@student.DateOfBirth.ToString("dd MM yyy")</td>
+                            <td>@student.DateOfBirth?.ToString("dd MM yyy")</td>
                             <td>@student.Gender</td>
                             <td>
                                 <a href="#id01" class="edit" onclick="AddEditStudentRecord('@student.StudentId')" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>

@@ -1,6 +1,6 @@
 ﻿function updateMark(value, studentId, courseId) {
     if (value == "" || value >= 6 && value <= 10) {
-        var url = "/Mark/Save?value=" + value + "&studentId=" + studentId + "&courseId=" + courseId;
+        var url = "/Mark/Save?markValue=" + value + "&studentId=" + studentId + "&courseId=" + courseId;
         $.ajax({
             type: "Post",
             url: url,
