@@ -26,8 +26,7 @@ namespace StARKS
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetService<DBContext>();
-                if (!context.Database.EnsureCreated())
-                    context.Database.Migrate();
+                context.Database.EnsureCreated();
             }
             if (env.IsDevelopment())
             {
